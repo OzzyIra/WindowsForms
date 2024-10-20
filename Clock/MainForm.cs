@@ -15,6 +15,7 @@ namespace Clock
         public MainForm()
         {
             InitializeComponent();
+            this.TransparencyKey = Color.Empty;
         }
 
 
