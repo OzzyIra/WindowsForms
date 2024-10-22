@@ -7,18 +7,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Reflection;
 
 namespace Clock
 {
     public partial class MainForm : Form
     {
+        ColorDialog backgroundColorDialog;
+        ColorDialog foregroundColorDialog;
+        ChooseFonts chooseFontDialog;
+
         public MainForm()
         {
             InitializeComponent();
+            SetFontDirectory();
             this.TransparencyKey = Color.Empty;
+            backgroundColorDialog = new ColorDialog();
+            foregroundColorDialog = new ColorDialog();
+            chooseFontDialog = new ChooseFonts();
+            SetVisibility(false);
+            this.Location = new Point(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
+            this.Text += $"location: {this.Location.X}x{this.Location.Y}";
         }
 
-
+        void SetFontDirectory()
+        {
+            string location = Assembly.GetEntryAssembly().Location;       //получаем полный адрес исполняемого файла
+            string path = Path.GetDirectoryName(location);      //из адреса извлекаем путь к файлу
+            Directory.SetCurrentDirectory($"{path}\\..\\..\\Fonts");
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             labelTime.Text = DateTime.Now.ToString("HH:mm:ss");
@@ -50,5 +68,64 @@ namespace Clock
         {
             notifyIconSystemTray.Text = "Текущее время:\n" + labelTime.Text;
         }
+
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void topmostToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            this.TopMost = topmostToolStripMenuItem.Checked;
+        }
+
+        private void showDateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            checkBoxShowDate.Checked = ((ToolStripMenuItem)sender).Checked;
+        }
+
+        private void checkBoxShowDate_CheckedChanged(object sender, EventArgs e)
+        {
+            showDateToolStripMenuItem.Checked = ((CheckBox)sender).Checked;
+        }
+
+        private void showControlsToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            SetVisibility(((ToolStripMenuItem)sender).Checked);
+        }
+
+        private void notifyIconSystemTray_DoubleClick(object sender, EventArgs e)
+        {
+            if(!this.TopMost)
+            {
+                this.TopMost = true;
+                this.TopMost = false;
+            }
+        }
+
+        private void foregroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(foregroundColorDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                labelTime.ForeColor = foregroundColorDialog.Color;
+            }
+        }
+
+        private void backgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(backgroundColorDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                labelTime.BackColor = backgroundColorDialog.Color;
+            }
+        }
+
+        private void fonsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if(chooseFontDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                labelTime.Font = chooseFontDialog.ChosenFont;
+            }
+        }
+        
     }
 }
