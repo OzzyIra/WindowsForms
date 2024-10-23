@@ -82,7 +82,7 @@ namespace Clock
             this.toolStripSeparator4,
             this.closeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(208, 204);
+            this.contextMenuStrip.Size = new System.Drawing.Size(208, 182);
             // 
             // topmostToolStripMenuItem
             // 
@@ -130,14 +130,14 @@ namespace Clock
             // foregroundColorToolStripMenuItem
             // 
             this.foregroundColorToolStripMenuItem.Name = "foregroundColorToolStripMenuItem";
-            this.foregroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.foregroundColorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.foregroundColorToolStripMenuItem.Text = "Foreground color";
             this.foregroundColorToolStripMenuItem.Click += new System.EventHandler(this.foregroundColorToolStripMenuItem_Click);
             // 
             // backgroundColorToolStripMenuItem
             // 
             this.backgroundColorToolStripMenuItem.Name = "backgroundColorToolStripMenuItem";
-            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.backgroundColorToolStripMenuItem.Text = "Background color";
             this.backgroundColorToolStripMenuItem.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
             // 
@@ -225,6 +225,7 @@ namespace Clock
             this.Name = "MainForm";
             this.Text = "Clock";
             this.TransparencyKey = System.Drawing.Color.White;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

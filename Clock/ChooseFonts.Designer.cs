@@ -39,7 +39,7 @@ namespace Clock
             // 
             this.comboBoxFonts.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxFonts.FormattingEnabled = true;
-            this.comboBoxFonts.Location = new System.Drawing.Point(12, 12);
+            this.comboBoxFonts.Location = new System.Drawing.Point(25, 12);
             this.comboBoxFonts.Name = "comboBoxFonts";
             this.comboBoxFonts.Size = new System.Drawing.Size(285, 21);
             this.comboBoxFonts.TabIndex = 0;
@@ -81,7 +81,7 @@ namespace Clock
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(309, 230);
+            this.ClientSize = new System.Drawing.Size(322, 230);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOK);
             this.Controls.Add(this.labelExample);
