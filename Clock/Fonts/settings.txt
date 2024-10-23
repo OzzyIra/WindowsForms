@@ -1,3 +1,5 @@
--16711936
--8355712
-DreiFraktur
+-12582912
+-65408
+DreiFraktur.ttf
+True
+True

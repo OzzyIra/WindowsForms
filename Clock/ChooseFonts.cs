@@ -15,10 +15,15 @@ namespace Clock
     public partial class ChooseFonts : Form
     {
         public Font ChosenFont { get; private set; }
+        public string FontFile { get; private set; }
         public ChooseFonts()
         {
             InitializeComponent();
             LoadFonts();
+        }
+        public ChooseFonts(string fontFile):this()
+        {
+            SetFontFile(fontFile);
         }
         void LoadFonts()
         {
@@ -30,12 +35,20 @@ namespace Clock
             comboBoxFonts.Items.AddRange(fonts);
             comboBoxFonts.SelectedIndex = 0;
         }
+        public Font SetFontFile(string fontFile)
+        {
+            FontFile = fontFile;
+            comboBoxFonts.SelectedIndex = comboBoxFonts.Items.IndexOf(FontFile);
+            PrivateFontCollection pfc = new PrivateFontCollection();
+            pfc.AddFontFile(FontFile);
+            return new Font(pfc.Families[0], 36);
+        }
 
         private void comboBoxFonts_SelectedValueChanged(object sender, EventArgs e)
         {
-            string fontFile = $"{Directory.GetCurrentDirectory()}\\{comboBoxFonts.SelectedItem.ToString()}";
+            FontFile = $"{Directory.GetCurrentDirectory()}\\{comboBoxFonts.SelectedItem.ToString()}";
             PrivateFontCollection pfc = new PrivateFontCollection();
-            pfc.AddFontFile(fontFile);
+            pfc.AddFontFile(FontFile);
             Font font = new Font(pfc.Families[0], 36);
             labelExample.Font = font;
             

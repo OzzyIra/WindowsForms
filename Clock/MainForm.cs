@@ -18,7 +18,7 @@ namespace Clock
         ColorDialog backgroundColorDialog;
         ColorDialog foregroundColorDialog;
         ChooseFonts chooseFontDialog;
-        
+        string FontFile { get;  set; }
 
         public MainForm()
         {
@@ -27,10 +27,10 @@ namespace Clock
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
             foregroundColorDialog = new ColorDialog();
-            LoadSettings();
            // SetFontDirectory();
 
             chooseFontDialog = new ChooseFonts();
+            LoadSettings();
 
             //labelTime.ForeColor = foregroundColorDialog.Color;
             //labelTime.BackColor = backgroundColorDialog.Color;
@@ -53,19 +53,28 @@ namespace Clock
             {
                 settings.Add(sr.ReadLine());
             }
+            sr.Close();
+
             backgroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[0]));
             foregroundColorDialog.Color = Color.FromArgb(Convert.ToInt32(settings.ToArray()[1]));
+
+            FontFile = settings.ToArray()[2];
+            topmostToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[3]);
+            showDateToolStripMenuItem.Checked = bool.Parse(settings.ToArray()[4]);
+
+            labelTime.Font = chooseFontDialog.SetFontFile(FontFile);
             labelTime.ForeColor = foregroundColorDialog.Color;
             labelTime.BackColor = backgroundColorDialog.Color;
 
-            sr.Close();
         }
         void SaveSettings()
         {
             StreamWriter sw = new StreamWriter("settings.txt");
             sw.WriteLine(backgroundColorDialog.Color.ToArgb()); //ToArgb() возвращает числовой код цвета
             sw.WriteLine(foregroundColorDialog.Color.ToArgb());
-            sw.WriteLine(labelTime.Font.Name);
+            sw.WriteLine(chooseFontDialog.FontFile.Split('\\').Last());
+            sw.WriteLine(topmostToolStripMenuItem.Checked);
+            sw.WriteLine(showDateToolStripMenuItem.Checked);
             sw.Close();
             Process.Start("notepad", "settings");
         }
@@ -111,10 +120,10 @@ namespace Clock
             this.TopMost = topmostToolStripMenuItem.Checked;
         }
 
-        private void showDateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            checkBoxShowDate.Checked = ((ToolStripMenuItem)sender).Checked;
-        }
+        //private void showDateToolStripMenuItem_Click(object sender, EventArgs e)
+        //{
+        //    checkBoxShowDate.Checked = ((ToolStripMenuItem)sender).Checked;
+        //}
 
         private void checkBoxShowDate_CheckedChanged(object sender, EventArgs e)
         {
@@ -162,6 +171,11 @@ namespace Clock
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettings();
+        }
+
+        private void showDateToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            checkBoxShowDate.Checked = ((ToolStripMenuItem)sender).Checked;
         }
     }
 }

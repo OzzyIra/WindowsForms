@@ -111,7 +111,7 @@ namespace Clock
             this.showDateToolStripMenuItem.Name = "showDateToolStripMenuItem";
             this.showDateToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.showDateToolStripMenuItem.Text = "Show date";
-            this.showDateToolStripMenuItem.Click += new System.EventHandler(this.showDateToolStripMenuItem_Click);
+            this.showDateToolStripMenuItem.CheckedChanged += new System.EventHandler(this.showDateToolStripMenuItem_CheckedChanged);
             // 
             // toolStripSeparator2
             // 
