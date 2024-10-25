@@ -1,5 +1,5 @@
 -12582912
 -65408
-DreiFraktur.ttf
+English Wd.ttf
 True
-True
+False

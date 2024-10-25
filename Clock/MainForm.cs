@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace Clock
 {
@@ -65,7 +66,10 @@ namespace Clock
             labelTime.Font = chooseFontDialog.SetFontFile(FontFile);
             labelTime.ForeColor = foregroundColorDialog.Color;
             labelTime.BackColor = backgroundColorDialog.Color;
-
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run",true);
+            object run = rk.GetValue("Time");
+            if (run != null) loadOnWindowsStartupToolStripMenuItem.Checked = true;
+            rk.Dispose();
         }
         void SaveSettings()
         {
@@ -120,10 +124,6 @@ namespace Clock
             this.TopMost = topmostToolStripMenuItem.Checked;
         }
 
-        //private void showDateToolStripMenuItem_Click(object sender, EventArgs e)
-        //{
-        //    checkBoxShowDate.Checked = ((ToolStripMenuItem)sender).Checked;
-        //}
 
         private void checkBoxShowDate_CheckedChanged(object sender, EventArgs e)
         {
@@ -176,6 +176,35 @@ namespace Clock
         private void showDateToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             checkBoxShowDate.Checked = ((ToolStripMenuItem)sender).Checked;
+        }
+
+        private void loadOnWindowsStartupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            const string name = "Time";
+            string path = Assembly.GetExecutingAssembly().Location;
+            RegistryKey reg = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+            if(loadOnWindowsStartupToolStripMenuItem.Checked)
+            {
+                reg.SetValue(name, path);
+            }
+            else
+            {
+                reg.DeleteValue(name);
+            }
+            reg.Flush();
+            reg.Close();
+        }
+
+        private void labelTime_MouseDown(object sender, MouseEventArgs e)
+        {
+            labelTime.Capture = false;
+            Message mes = Message.Create(this.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
+            this.WndProc(ref mes);
+        }
+
+        private void MainForm_DoubleClick(object sender, EventArgs e)
+        {
+            SetVisibility(true);
         }
     }
 }

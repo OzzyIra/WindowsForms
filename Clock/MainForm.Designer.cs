@@ -66,6 +66,7 @@ namespace Clock
             this.labelTime.TabIndex = 1;
             this.labelTime.Text = "Time";
             this.labelTime.DoubleClick += new System.EventHandler(this.labelTime_DoubleClick);
+            this.labelTime.MouseDown += new System.Windows.Forms.MouseEventHandler(this.labelTime_MouseDown);
             // 
             // contextMenuStrip
             // 
@@ -159,6 +160,7 @@ namespace Clock
             this.loadOnWindowsStartupToolStripMenuItem.Name = "loadOnWindowsStartupToolStripMenuItem";
             this.loadOnWindowsStartupToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
             this.loadOnWindowsStartupToolStripMenuItem.Text = "Load on windows startup";
+            this.loadOnWindowsStartupToolStripMenuItem.CheckedChanged += new System.EventHandler(this.loadOnWindowsStartupToolStripMenuItem_CheckedChanged);
             // 
             // toolStripSeparator4
             // 
@@ -226,6 +228,7 @@ namespace Clock
             this.Text = "Clock";
             this.TransparencyKey = System.Drawing.Color.White;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.DoubleClick += new System.EventHandler(this.MainForm_DoubleClick);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
