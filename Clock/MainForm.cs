@@ -19,6 +19,7 @@ namespace Clock
         ColorDialog backgroundColorDialog;
         ColorDialog foregroundColorDialog;
         ChooseFonts chooseFontDialog;
+        AlarmList alarmList;
         string FontFile { get;  set; }
 
         public MainForm()
@@ -32,7 +33,7 @@ namespace Clock
 
             chooseFontDialog = new ChooseFonts();
             LoadSettings();
-
+            alarmList = new AlarmList();
             //labelTime.ForeColor = foregroundColorDialog.Color;
             //labelTime.BackColor = backgroundColorDialog.Color;
             SetVisibility(false);
@@ -181,18 +182,18 @@ namespace Clock
         private void loadOnWindowsStartupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             const string name = "Time";
-            string path = Assembly.GetExecutingAssembly().Location;
-            RegistryKey reg = Registry.CurrentUser.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run",true);
             if(loadOnWindowsStartupToolStripMenuItem.Checked)
-            {
-                reg.SetValue(name, path);
+            { 
+                reg.SetValue(name, Application.ExecutablePath);
             }
             else
             {
-                reg.DeleteValue(name);
+                reg.DeleteValue(name,false);
             }
-            reg.Flush();
-            reg.Close();
+            reg.Dispose();      //освободить ресурсы, занятые объектом 
+            //reg.Flush();
+            //reg.Close();
         }
 
         private void labelTime_MouseDown(object sender, MouseEventArgs e)
@@ -205,6 +206,11 @@ namespace Clock
         private void MainForm_DoubleClick(object sender, EventArgs e)
         {
             SetVisibility(true);
+        }
+
+        private void alarmsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            alarmList.ShowDialog(this);
         }
     }
 }

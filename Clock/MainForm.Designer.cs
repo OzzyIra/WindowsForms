@@ -50,6 +50,8 @@ namespace Clock
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.notifyIconSystemTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnHideControls = new System.Windows.Forms.Button();
+            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
+            this.alarmsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -78,12 +80,14 @@ namespace Clock
             this.toolStripSeparator2,
             this.colorsToolStripMenuItem,
             this.fonsToolStripMenuItem,
+            this.alarmsToolStripMenuItem,
             this.toolStripSeparator3,
             this.loadOnWindowsStartupToolStripMenuItem,
             this.toolStripSeparator4,
-            this.closeToolStripMenuItem});
+            this.closeToolStripMenuItem,
+            this.toolStripSeparator5});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(208, 182);
+            this.contextMenuStrip.Size = new System.Drawing.Size(208, 232);
             // 
             // topmostToolStripMenuItem
             // 
@@ -131,14 +135,14 @@ namespace Clock
             // foregroundColorToolStripMenuItem
             // 
             this.foregroundColorToolStripMenuItem.Name = "foregroundColorToolStripMenuItem";
-            this.foregroundColorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.foregroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.foregroundColorToolStripMenuItem.Text = "Foreground color";
             this.foregroundColorToolStripMenuItem.Click += new System.EventHandler(this.foregroundColorToolStripMenuItem_Click);
             // 
             // backgroundColorToolStripMenuItem
             // 
             this.backgroundColorToolStripMenuItem.Name = "backgroundColorToolStripMenuItem";
-            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.backgroundColorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.backgroundColorToolStripMenuItem.Text = "Background color";
             this.backgroundColorToolStripMenuItem.Click += new System.EventHandler(this.backgroundColorToolStripMenuItem_Click);
             // 
@@ -213,6 +217,18 @@ namespace Clock
             this.btnHideControls.UseVisualStyleBackColor = true;
             this.btnHideControls.Click += new System.EventHandler(this.btnHideControls_Click);
             // 
+            // toolStripSeparator5
+            // 
+            this.toolStripSeparator5.Name = "toolStripSeparator5";
+            this.toolStripSeparator5.Size = new System.Drawing.Size(204, 6);
+            // 
+            // alarmsToolStripMenuItem
+            // 
+            this.alarmsToolStripMenuItem.Name = "alarmsToolStripMenuItem";
+            this.alarmsToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.alarmsToolStripMenuItem.Text = "Alarms";
+            this.alarmsToolStripMenuItem.Click += new System.EventHandler(this.alarmsToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -256,6 +272,8 @@ namespace Clock
         private System.Windows.Forms.ToolStripMenuItem loadOnWindowsStartupToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem alarmsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
     }
 }
 
