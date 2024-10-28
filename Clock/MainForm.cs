@@ -11,11 +11,14 @@ using System.IO;
 using System.Reflection;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
+
 
 namespace Clock
 {
     public partial class MainForm : Form
     {
+
         ColorDialog backgroundColorDialog;
         ColorDialog foregroundColorDialog;
         ChooseFonts chooseFontDialog;
@@ -25,6 +28,7 @@ namespace Clock
         public MainForm()
         {
             InitializeComponent();
+            AllocConsole();
             SetFontDirectory();
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
@@ -107,6 +111,7 @@ namespace Clock
 
         private void labelTime_DoubleClick(object sender, EventArgs e)
         {
+          
             SetVisibility(true);
         }
 
@@ -125,6 +130,14 @@ namespace Clock
             this.TopMost = topmostToolStripMenuItem.Checked;
         }
 
+        private void notifyIconSystemTray_DoubleClick(object sender, EventArgs e)
+        {
+            if(!this.TopMost)
+            {
+                this.TopMost = true;
+                this.TopMost = false;
+            }
+        }
 
         private void checkBoxShowDate_CheckedChanged(object sender, EventArgs e)
         {
@@ -136,14 +149,6 @@ namespace Clock
             SetVisibility(((ToolStripMenuItem)sender).Checked);
         }
 
-        private void notifyIconSystemTray_DoubleClick(object sender, EventArgs e)
-        {
-            if(!this.TopMost)
-            {
-                this.TopMost = true;
-                this.TopMost = false;
-            }
-        }
 
         private void foregroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -195,9 +200,10 @@ namespace Clock
             //reg.Flush();
             //reg.Close();
         }
-
+      
         private void labelTime_MouseDown(object sender, MouseEventArgs e)
         {
+          
             labelTime.Capture = false;
             Message mes = Message.Create(this.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
             this.WndProc(ref mes);
@@ -212,5 +218,7 @@ namespace Clock
         {
             alarmList.ShowDialog(this);
         }
+        [DllImport("kernel32.dll")]
+        static extern bool AllocConsole();
     }
 }

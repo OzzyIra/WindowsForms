@@ -28,11 +28,19 @@ namespace Clock
         void LoadFonts()
         {
             string[] fonts = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.ttf").ToArray();
-            for(int i =0;i<fonts.Length;i++)
+            for (int i = 0; i < fonts.Length; i++)
             {
                 fonts[i] = fonts[i].Split('\\').Last();
             }
             comboBoxFonts.Items.AddRange(fonts);
+            //string[] fonts_otf = Directory.EnumerateFiles(Directory.GetCurrentDirectory(), "*.otf").ToArray();
+            //for(int i =0;i<fonts_otf.Length;i++)
+            //{
+            //    fonts_otf[i] = fonts_otf[i].Split('\\').Last();
+            //}
+            // comboBoxFonts.Items.AddRange(fonts_otf);
+            // comboBoxFonts.Items.AddRange(fonts);
+            
             comboBoxFonts.SelectedIndex = 0;
         }
         public Font SetFontFile(string fontFile)

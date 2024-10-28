@@ -30,18 +30,18 @@ namespace Clock
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AlarmList));
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.listBoxAlarms = new System.Windows.Forms.ListBox();
             this.buttonAddAlarms = new System.Windows.Forms.Button();
             this.buttonDeleteAlarms = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // listBox1
+            // listBoxAlarms
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(13, 13);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(334, 225);
-            this.listBox1.TabIndex = 0;
+            this.listBoxAlarms.FormattingEnabled = true;
+            this.listBoxAlarms.Location = new System.Drawing.Point(13, 13);
+            this.listBoxAlarms.Name = "listBoxAlarms";
+            this.listBoxAlarms.Size = new System.Drawing.Size(334, 225);
+            this.listBoxAlarms.TabIndex = 0;
             // 
             // buttonAddAlarms
             // 
@@ -69,7 +69,7 @@ namespace Clock
             this.ClientSize = new System.Drawing.Size(491, 255);
             this.Controls.Add(this.buttonDeleteAlarms);
             this.Controls.Add(this.buttonAddAlarms);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.listBoxAlarms);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -82,7 +82,7 @@ namespace Clock
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox listBoxAlarms;
         private System.Windows.Forms.Button buttonAddAlarms;
         private System.Windows.Forms.Button buttonDeleteAlarms;
     }

@@ -37,6 +37,7 @@ namespace Clock
             this.dateTimePickerDate = new System.Windows.Forms.DateTimePicker();
             this.checkBoxExectDate = new System.Windows.Forms.CheckBox();
             this.checkedListBoxWeek = new System.Windows.Forms.CheckedListBox();
+            this.openFileDialogSound = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // dateTimePickerTime
@@ -47,6 +48,7 @@ namespace Clock
             this.dateTimePickerTime.Location = new System.Drawing.Point(304, 53);
             this.dateTimePickerTime.Name = "dateTimePickerTime";
             this.dateTimePickerTime.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.dateTimePickerTime.ShowUpDown = true;
             this.dateTimePickerTime.Size = new System.Drawing.Size(191, 44);
             this.dateTimePickerTime.TabIndex = 0;
             // 
@@ -59,6 +61,7 @@ namespace Clock
             this.labelFileName.Size = new System.Drawing.Size(78, 20);
             this.labelFileName.TabIndex = 2;
             this.labelFileName.Text = "Filename:";
+            this.labelFileName.TextChanged += new System.EventHandler(this.labelFileName_TextChanged);
             // 
             // buttonChooseFile
             // 
@@ -70,10 +73,12 @@ namespace Clock
             this.buttonChooseFile.TabIndex = 3;
             this.buttonChooseFile.Text = "Выбрать файл";
             this.buttonChooseFile.UseVisualStyleBackColor = true;
+            this.buttonChooseFile.Click += new System.EventHandler(this.buttonChooseFile_Click);
             // 
             // buttonOK
             // 
             this.buttonOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.buttonOK.Enabled = false;
             this.buttonOK.Location = new System.Drawing.Point(333, 233);
             this.buttonOK.Name = "buttonOK";
             this.buttonOK.Size = new System.Drawing.Size(75, 23);
@@ -135,6 +140,10 @@ namespace Clock
             this.checkedListBoxWeek.Size = new System.Drawing.Size(483, 28);
             this.checkedListBoxWeek.TabIndex = 1;
             // 
+            // openFileDialogSound
+            // 
+            this.openFileDialogSound.FileName = "openFileDialog1";
+            // 
             // AddAlarm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,5 +177,6 @@ namespace Clock
         private System.Windows.Forms.DateTimePicker dateTimePickerDate;
         private System.Windows.Forms.CheckBox checkBoxExectDate;
         private System.Windows.Forms.CheckedListBox checkedListBoxWeek;
+        private System.Windows.Forms.OpenFileDialog openFileDialogSound;
     }
 }
