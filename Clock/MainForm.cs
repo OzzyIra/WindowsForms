@@ -23,6 +23,8 @@ namespace Clock
         ColorDialog foregroundColorDialog;
         ChooseFonts chooseFontDialog;
         AlarmList alarmList;
+        Alarm alarm;
+
         string FontFile { get;  set; }
 
         public MainForm()
@@ -43,6 +45,7 @@ namespace Clock
             SetVisibility(false);
             this.Location = new Point(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
             this.Text += $"location: {this.Location.X}x{this.Location.Y}";
+            alarm = new Alarm();
         }
 
         void SetFontDirectory()
@@ -71,11 +74,13 @@ namespace Clock
             labelTime.Font = chooseFontDialog.SetFontFile(FontFile);
             labelTime.ForeColor = foregroundColorDialog.Color;
             labelTime.BackColor = backgroundColorDialog.Color;
+            
             RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run",true);
             object run = rk.GetValue("Time");
             if (run != null) loadOnWindowsStartupToolStripMenuItem.Checked = true;
             rk.Dispose();
         }
+        
         void SaveSettings()
         {
             StreamWriter sw = new StreamWriter("settings.txt");
@@ -87,10 +92,33 @@ namespace Clock
             sw.Close();
             Process.Start("notepad", "settings");
         }
+
+        void GetNextAlarm()
+        {
+            List<Alarm> alarms = new List<Alarm>();
+            foreach(Alarm item in alarmList.ListBoxAlarm.Items)
+            {
+                alarms.Add(item);
+            }
+            if(alarms.Min() != null)
+            {
+                alarm = alarms.Min();
+            }
+            Console.WriteLine(alarm);
+        }
         private void timer1_Tick(object sender, EventArgs e)
         {
             labelTime.Text = DateTime.Now.ToString("HH:mm:ss");
             if (checkBoxShowDate.Checked) labelTime.Text += $"\n{DateTime.Today.ToString("dd.MM.yyyy")}";
+            GetNextAlarm();
+            if(
+                DateTime.Now.Hour == alarm.Time.Hour&&
+                DateTime.Now.Minute == alarm.Time.Minute&&
+                DateTime.Now.Second == alarm.Time.Second
+                )
+            {
+                MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
         private void SetVisibility(bool visible)
         {

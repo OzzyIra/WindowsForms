@@ -18,14 +18,35 @@ namespace Clock
             InitializeComponent();
             Alarm = new Alarm();
             labelFileName.MaximumSize = new Size(this.Width - 25, 75);
-            openFileDialogSound.Filter = "MP-3(*.mp3)|*.mp3|Flac(*.flac)|*flac|All Audio|*.mp3,*.flac";
-        }
+            openFileDialogSound.Filter = "MP-3(*.mp3)|*.mp3|Flac(*.flac)|*flac|All Audio|*.mp3;*.flac";
+            openFileDialogSound.FilterIndex = 3;
 
+        }
+        public AddAlarm(Alarm alarm):this()
+        {
+            Alarm = alarm;
+            InitWindowsFromAlarm();
+        }
+        void InitWindowsFromAlarm()
+        {
+            if (Alarm.Date != DateTime.MinValue) this.dateTimePickerDate.Value = Alarm.Date;
+            this.dateTimePickerTime.Value = Alarm.Time;
+            this.labelFileName.Text = Alarm.Filename;
+            for(int i = 0;i<Alarm.WeekDays.Length;i++)
+            {
+                checkedListBoxWeek.SetItemChecked(i, Alarm.WeekDays[i]);
+            }
+            
+        }
         void InitAlarm()
         {
             Alarm.Date = dateTimePickerDate.Enabled ? dateTimePickerDate.Value : DateTime.MinValue;
             Alarm.Time = dateTimePickerTime.Value;
             Alarm.Filename = labelFileName.Text;
+            for(int i = 0;i<Alarm.WeekDays.Length;i++)
+            {
+                Alarm.WeekDays[i] = false;
+            }
             for(int i = 0; i< checkedListBoxWeek.CheckedIndices.Count;i++)     //CheckedIndices это коллекция, которая содержит индексы выбранных галочек в checkedListBoxWeek
             {
 

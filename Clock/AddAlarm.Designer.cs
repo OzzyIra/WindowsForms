@@ -99,6 +99,8 @@ namespace Clock
             // 
             // dateTimePickerDate
             // 
+            this.dateTimePickerDate.CalendarTitleBackColor = System.Drawing.SystemColors.ControlText;
+            this.dateTimePickerDate.CalendarTitleForeColor = System.Drawing.Color.White;
             this.dateTimePickerDate.Enabled = false;
             this.dateTimePickerDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.dateTimePickerDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
