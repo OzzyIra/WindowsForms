@@ -52,7 +52,10 @@ namespace Clock
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.notifyIconSystemTray = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnHideControls = new System.Windows.Forms.Button();
+            this.showWeekdayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.axWindowsMediaPlayer1 = new AxWMPLib.AxWindowsMediaPlayer();
             this.contextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTime
@@ -78,6 +81,7 @@ namespace Clock
             this.showControlsToolStripMenuItem,
             this.toolStripSeparator1,
             this.showDateToolStripMenuItem,
+            this.showWeekdayToolStripMenuItem,
             this.toolStripSeparator2,
             this.colorsToolStripMenuItem,
             this.fonsToolStripMenuItem,
@@ -88,7 +92,7 @@ namespace Clock
             this.closeToolStripMenuItem,
             this.toolStripSeparator5});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(208, 210);
+            this.contextMenuStrip.Size = new System.Drawing.Size(208, 232);
             // 
             // topmostToolStripMenuItem
             // 
@@ -230,12 +234,29 @@ namespace Clock
             this.btnHideControls.UseVisualStyleBackColor = true;
             this.btnHideControls.Click += new System.EventHandler(this.btnHideControls_Click);
             // 
+            // showWeekdayToolStripMenuItem
+            // 
+            this.showWeekdayToolStripMenuItem.CheckOnClick = true;
+            this.showWeekdayToolStripMenuItem.Name = "showWeekdayToolStripMenuItem";
+            this.showWeekdayToolStripMenuItem.Size = new System.Drawing.Size(207, 22);
+            this.showWeekdayToolStripMenuItem.Text = "Show weekday";
+            // 
+            // axWindowsMediaPlayer1
+            // 
+            this.axWindowsMediaPlayer1.Enabled = true;
+            this.axWindowsMediaPlayer1.Location = new System.Drawing.Point(12, 267);
+            this.axWindowsMediaPlayer1.Name = "axWindowsMediaPlayer1";
+            this.axWindowsMediaPlayer1.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("axWindowsMediaPlayer1.OcxState")));
+            this.axWindowsMediaPlayer1.Size = new System.Drawing.Size(230, 45);
+            this.axWindowsMediaPlayer1.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(272, 276);
+            this.ClientSize = new System.Drawing.Size(272, 366);
+            this.Controls.Add(this.axWindowsMediaPlayer1);
             this.Controls.Add(this.btnHideControls);
             this.Controls.Add(this.checkBoxShowDate);
             this.Controls.Add(this.labelTime);
@@ -248,6 +269,7 @@ namespace Clock
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.DoubleClick += new System.EventHandler(this.MainForm_DoubleClick);
             this.contextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.axWindowsMediaPlayer1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -276,6 +298,8 @@ namespace Clock
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem alarmsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
+        private System.Windows.Forms.ToolStripMenuItem showWeekdayToolStripMenuItem;
+        private AxWMPLib.AxWindowsMediaPlayer axWindowsMediaPlayer1;
     }
 }
 

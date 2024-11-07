@@ -12,7 +12,7 @@ using System.Reflection;
 using System.Diagnostics;
 using Microsoft.Win32;
 using System.Runtime.InteropServices;
-
+using MediaPlayer;
 
 namespace Clock
 {
@@ -25,7 +25,7 @@ namespace Clock
         AlarmList alarmList;
         Alarm alarm;
 
-        string FontFile { get;  set; }
+        string FontFile { get; set; }
 
         public MainForm()
         {
@@ -35,7 +35,7 @@ namespace Clock
             this.TransparencyKey = Color.Empty;
             backgroundColorDialog = new ColorDialog();
             foregroundColorDialog = new ColorDialog();
-           // SetFontDirectory();
+            // SetFontDirectory();
 
             chooseFontDialog = new ChooseFonts();
             LoadSettings();
@@ -45,7 +45,11 @@ namespace Clock
             SetVisibility(false);
             this.Location = new Point(System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width - this.Width, 50);
             this.Text += $"location: {this.Location.X}x{this.Location.Y}";
+           
             alarm = new Alarm();
+            GetNextAlarm();
+
+            this.axWindowsMediaPlayer1.Visible = false;
         }
 
         void SetFontDirectory()
@@ -58,7 +62,7 @@ namespace Clock
         {
             StreamReader sr = new StreamReader("settings.txt");
             List<string> settings = new List<string>();
-            while(!sr.EndOfStream)
+            while (!sr.EndOfStream)
             {
                 settings.Add(sr.ReadLine());
             }
@@ -74,13 +78,13 @@ namespace Clock
             labelTime.Font = chooseFontDialog.SetFontFile(FontFile);
             labelTime.ForeColor = foregroundColorDialog.Color;
             labelTime.BackColor = backgroundColorDialog.Color;
-            
-            RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run",true);
+
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
             object run = rk.GetValue("Time");
             if (run != null) loadOnWindowsStartupToolStripMenuItem.Checked = true;
             rk.Dispose();
         }
-        
+
         void SaveSettings()
         {
             StreamWriter sw = new StreamWriter("settings.txt");
@@ -96,29 +100,62 @@ namespace Clock
         void GetNextAlarm()
         {
             List<Alarm> alarms = new List<Alarm>();
-            foreach(Alarm item in alarmList.ListBoxAlarm.Items)
+            foreach (Alarm item in alarmList.ListBoxAlarm.Items)
             {
-                alarms.Add(item);
+                if (item.Time > DateTime.Now) alarms.Add(item);
             }
-            if(alarms.Min() != null)
-            {
-                alarm = alarms.Min();
-            }
+            if (alarms.Min() != null) alarm = alarms.Min();
+            //if(alarms.Min() != null)
+            //{
+            //    alarm = alarms.Min();
+            //}
+            //List<TimeSpan> intervals = new List<TimeSpan>();
+            //foreach(Alarm item in alarmList.ListBoxAlarm.Items)
+            //{
+            //    TimeSpan min = new TimeSpan(24,0,0);
+            //    if(DateTime.Now - item.Time < min)
+            //    {
+            //        alarm = item;
+            //    }
+            //}
             Console.WriteLine(alarm);
         }
         private void timer1_Tick(object sender, EventArgs e)
         {
             labelTime.Text = DateTime.Now.ToString("HH:mm:ss");
             if (checkBoxShowDate.Checked) labelTime.Text += $"\n{DateTime.Today.ToString("dd.MM.yyyy")}";
-            GetNextAlarm();
-            if(
-                DateTime.Now.Hour == alarm.Time.Hour&&
-                DateTime.Now.Minute == alarm.Time.Minute&&
+            if (showWeekdayToolStripMenuItem.Checked)
+            {
+                labelTime.Text += $"\n{DateTime.Now.DayOfWeek}";
+            }
+            int weekday = (int)DateTime.Now.DayOfWeek;
+            weekday = weekday == 0 ? 6 : weekday - 1;
+            if (
+                alarm.WeekDays[((int)DateTime.Now.DayOfWeek == 0 ? 6 : (int)DateTime.Now.DayOfWeek - 1)] == true &&
+                DateTime.Now.Hour == alarm.Time.Hour &&
+                DateTime.Now.Minute == alarm.Time.Minute &&
                 DateTime.Now.Second == alarm.Time.Second
                 )
             {
-                MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //MessageBox.Show(alarm.Filename, "Alarm", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Console.WriteLine("Alarm:-----", alarm.ToString());
+                PlayAlarm();
+                GetNextAlarm();
+
             }
+            if (DateTime.Now.Second == 0)
+            {
+                GetNextAlarm();
+                Console.WriteLine("Minute");
+            }
+
+        }
+        void PlayAlarm()
+        {
+            axWindowsMediaPlayer1.URL = alarm.Filename;
+            axWindowsMediaPlayer1.settings.volume = 100;
+            axWindowsMediaPlayer1.Ctlcontrols.play();
+            axWindowsMediaPlayer1.Visible = true;
         }
         private void SetVisibility(bool visible)
         {
@@ -127,6 +164,7 @@ namespace Clock
             this.ShowInTaskbar = visible;
             checkBoxShowDate.Visible = visible;
             btnHideControls.Visible = visible;
+            axWindowsMediaPlayer1.Visible = false;
             //labelTime.BackColor = visible ? Color.Empty : Color.Black;
             //labelTime.ForeColor = visible ? Color.Empty : Color.DarkRed;
         }
@@ -139,7 +177,7 @@ namespace Clock
 
         private void labelTime_DoubleClick(object sender, EventArgs e)
         {
-          
+
             SetVisibility(true);
         }
 
@@ -160,7 +198,7 @@ namespace Clock
 
         private void notifyIconSystemTray_DoubleClick(object sender, EventArgs e)
         {
-            if(!this.TopMost)
+            if (!this.TopMost)
             {
                 this.TopMost = true;
                 this.TopMost = false;
@@ -180,7 +218,7 @@ namespace Clock
 
         private void foregroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(foregroundColorDialog.ShowDialog(this) == DialogResult.OK)
+            if (foregroundColorDialog.ShowDialog(this) == DialogResult.OK)
             {
                 labelTime.ForeColor = foregroundColorDialog.Color;
             }
@@ -188,7 +226,7 @@ namespace Clock
 
         private void backgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(backgroundColorDialog.ShowDialog(this) == DialogResult.OK)
+            if (backgroundColorDialog.ShowDialog(this) == DialogResult.OK)
             {
                 labelTime.BackColor = backgroundColorDialog.Color;
             }
@@ -196,7 +234,7 @@ namespace Clock
 
         private void fonsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(chooseFontDialog.ShowDialog(this) == DialogResult.OK)
+            if (chooseFontDialog.ShowDialog(this) == DialogResult.OK)
             {
                 labelTime.Font = chooseFontDialog.ChosenFont;
             }
@@ -215,23 +253,23 @@ namespace Clock
         private void loadOnWindowsStartupToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
             const string name = "Time";
-            RegistryKey reg = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run",true);
-            if(loadOnWindowsStartupToolStripMenuItem.Checked)
-            { 
+            RegistryKey reg = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+            if (loadOnWindowsStartupToolStripMenuItem.Checked)
+            {
                 reg.SetValue(name, Application.ExecutablePath);
             }
             else
             {
-                reg.DeleteValue(name,false);
+                reg.DeleteValue(name, false);
             }
             reg.Dispose();      //освободить ресурсы, занятые объектом 
             //reg.Flush();
             //reg.Close();
         }
-      
+
         private void labelTime_MouseDown(object sender, MouseEventArgs e)
         {
-          
+
             labelTime.Capture = false;
             Message mes = Message.Create(this.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
             this.WndProc(ref mes);
@@ -245,6 +283,8 @@ namespace Clock
         private void alarmsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             alarmList.ShowDialog(this);
+            GetNextAlarm();
+
         }
         [DllImport("kernel32.dll")]
         static extern bool AllocConsole();
