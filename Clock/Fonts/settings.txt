@@ -1,5 +1,5 @@
 -16777088
 -65536
-RuthlessSketch.ttf
+DS Stamper.ttf
 True
 False

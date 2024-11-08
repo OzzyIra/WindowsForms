@@ -131,6 +131,7 @@ namespace Clock
             int weekday = (int)DateTime.Now.DayOfWeek;
             weekday = weekday == 0 ? 6 : weekday - 1;
             if (
+                alarm != null&&
                 alarm.WeekDays[((int)DateTime.Now.DayOfWeek == 0 ? 6 : (int)DateTime.Now.DayOfWeek - 1)] == true &&
                 DateTime.Now.Hour == alarm.Time.Hour &&
                 DateTime.Now.Minute == alarm.Time.Minute &&
@@ -243,6 +244,7 @@ namespace Clock
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveSettings();
+            alarmList.SaveAlarmsToFile("alarms.csv");
         }
 
         private void showDateToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
@@ -288,6 +290,11 @@ namespace Clock
         }
         void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_EndOfStreamEvent e)
         {
+            axWindowsMediaPlayer1.Visible = false;
+        }
+        void SetPlayerInvisible(object sender, AxWMPLib._WMPOCXEvents_PlayStateChangeEvent e)
+        {
+            if(axWindowsMediaPlayer1.playState == WMPLib.WMPPlayState.wmppsMediaEnded)
             axWindowsMediaPlayer1.Visible = false;
         }
         [DllImport("kernel32.dll")]
