@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Clock
 {
@@ -13,8 +14,14 @@ namespace Clock
 
         public DateTime Time { get; set; }
         public bool[] WeekDays { get; private set; }
+        //string filename;
+        //public string Filename
+        //{
+        //    set => filename = value;
+        //    get => File.Exists(filename) ? filename :Path.GetFullPath(DEFAULT_LARM_FILE);
+        //}
+        //static readonly string DEFAULT_LARM_FILE = "..\\Sound\\LuciferMark_Pellegrino_-_Good_morning_Vietnam_63409154";
         public string Filename { get; set; } = "";
-
 
         public Alarm()
         {
@@ -69,7 +76,7 @@ namespace Clock
         }
         public int CompareTo(object other)
         {
-            return this.Time.CompareTo((other as Alarm).Time);
+            return this.Time.TimeOfDay.CompareTo((other as Alarm).Time.TimeOfDay);
         }
     }
 }

@@ -26,7 +26,8 @@ namespace Clock
         Alarm alarm;
 
         string FontFile { get; set; }
-
+        //static readonly string DEFAULT_LARM_FILE =
+        //    Path.GetFullPath("..\\Sound\\LuciferMark_Pellegrino_-_Good_morning_Vietnam_63409154");
         public MainForm()
         {
             InitializeComponent();
@@ -102,7 +103,8 @@ namespace Clock
             List<Alarm> alarms = new List<Alarm>();
             foreach (Alarm item in alarmList.ListBoxAlarm.Items)
             {
-                if (item.Time > DateTime.Now) alarms.Add(item);
+                if (item.Time.TimeOfDay > DateTime.Now.TimeOfDay) 
+                    alarms.Add(item);
             }
             if (alarms.Min() != null) alarm = alarms.Min();
             //if(alarms.Min() != null)
@@ -153,7 +155,7 @@ namespace Clock
         }
         void PlayAlarm()
         {
-            axWindowsMediaPlayer1.URL = alarm.Filename;
+            axWindowsMediaPlayer1.URL = File.Exists(alarm.Filename) ? alarm.Filename : Path.GetFullPath("..\\Sound\\LuciferMark_Pellegrino_-_Good_morning_Vietnam_63409154");
             axWindowsMediaPlayer1.settings.volume = 100;
             axWindowsMediaPlayer1.Ctlcontrols.play();
             axWindowsMediaPlayer1.Visible = true;
